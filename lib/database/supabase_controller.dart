@@ -49,3 +49,15 @@ Future<List<Item?>?> getItems() async {
     return null;
   }
 }
+
+Future<Item?> getItem({
+  required int id,
+}) async {
+  try {
+    final res = await _supabase.from('items').select().eq('id', id).single();
+    return Item.fromJson(res);
+  } catch (e) {
+    Logger().e(e);
+    return null;
+  }
+}
