@@ -1,5 +1,6 @@
 import 'package:audio_store/database/supabase_controller.dart';
 import 'package:audio_store/model/item.dart';
+import 'package:audio_store/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -50,8 +51,7 @@ class _HomePageState extends State<HomePage> {
                         child: isLoggedIn
                             ? Row(
                                 children: [
-                                  Text(supabase.auth.currentUser!.email ??
-                                      "You successfully logged in"),
+                                  Text(supabase.auth.currentUser!.email!),
                                   const Icon(
                                     Icons.arrow_right,
                                   ),
@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            SizedBox(height: 8),
             Expanded(
               flex: 8,
               child: FutureBuilder<List<Item?>?>(
@@ -95,14 +96,23 @@ class _HomePageState extends State<HomePage> {
 
                     final items = snapshot.data as List<Item?>;
 
-                    return ListView.builder(
+                    return ListView.separated(
                       itemCount: items.length,
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 24,
+                      ),
                       itemBuilder: (context, index) {
-                        final item = items[index];
+                        final item = items[index]!;
 
-                        return ListTile(
-                          title: Text(item!.name),
-                          subtitle: Text(item.desc),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: ItemCard(
+                            item: item,
+                            onClick: () => context.goNamed(
+                              'item',
+                              pathParameters: {'id': item.id.toString()},
+                            ),
+                          ),
                         );
                       },
                     );
