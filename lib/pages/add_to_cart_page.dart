@@ -1,8 +1,11 @@
 import 'package:audio_store/database/supabase_controller.dart';
+import 'package:audio_store/model/cart.dart';
 import 'package:audio_store/model/item.dart';
+import 'package:audio_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AddToCart extends StatefulWidget {
@@ -110,7 +113,22 @@ class _AddToCartState extends State<AddToCart> {
                                         ),
                                         SizedBox(width: 16),
                                         FilledButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            // Add item(s) into cart
+                                            context
+                                                .read<CartProvider>()
+                                                .addToCart(
+                                                  CartItem(
+                                                    item: item,
+                                                    qty: int.parse(
+                                                      _qtyController.text,
+                                                    ),
+                                                  ),
+                                                );
+
+                                            // Go to CartPage
+                                            context.go('/cart');
+                                          },
                                           child: Text('Add to Cart'),
                                         ),
                                       ],

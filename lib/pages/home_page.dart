@@ -1,8 +1,10 @@
 import 'package:audio_store/database/supabase_controller.dart';
 import 'package:audio_store/model/item.dart';
+import 'package:audio_store/provider/cart_provider.dart';
 import 'package:audio_store/widgets/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,11 +35,13 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            // Header
             Expanded(
               flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Profile chip
                   InkWell(
                     onTap: profileHandler,
                     child: FittedBox(
@@ -59,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                               )
                             : const Row(
                                 children: [
-                                  Text("You have not logged in"),
+                                  Text("You are not logged in"),
                                   Icon(
                                     Icons.arrow_right,
                                   ),
@@ -68,9 +72,27 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () => context.go('/transactions'),
-                    icon: Icon(Icons.receipt),
+                  // Go to TransactionPage
+                  Row(
+                    children: [
+                      Badge(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        label: Text(
+                          context.watch<CartProvider>().totalItems.toString(),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () => context.go('/cart'),
+                          icon: Icon(Icons.shopping_cart),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => context.go('/transactions'),
+                        icon: Icon(Icons.receipt),
+                      ),
+                    ],
                   ),
                 ],
               ),

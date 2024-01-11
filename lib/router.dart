@@ -28,7 +28,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/transactions',
-      builder: (context, state) => TransactionHistoryPage(),
+      builder: (context, state) => TransactionsPage(),
     ),
     GoRoute(
       path: '/item/:id',

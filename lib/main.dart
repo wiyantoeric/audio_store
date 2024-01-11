@@ -1,5 +1,7 @@
+import 'package:audio_store/provider/cart_provider.dart';
 import 'package:audio_store/router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -12,11 +14,16 @@ Future<void> main() async {
   await Supabase.initialize(url: supabaseUrl, anonKey: supabaseKey);
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => CartProvider(),
+      child: const AudioStoreApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AudioStoreApp extends StatelessWidget {
+  const AudioStoreApp({super.key});
 
   @override
   Widget build(BuildContext context) {
