@@ -54,6 +54,17 @@ class _LoginPageState extends State<LoginPage> {
 
                 if (res) {
                   context.go('/');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'You have successfully logged in',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

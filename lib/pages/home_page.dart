@@ -1,3 +1,5 @@
+import 'package:audio_store/database/supabase_controller.dart';
+import 'package:audio_store/model/item.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,39 +32,87 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            InkWell(
-              onTap: profileHandler,
-              child: FittedBox(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: isLoggedIn
-                      ? Row(
-                          children: [
-                            Text(supabase.auth.currentUser!.email ??
-                                "You successfully logged in"),
-                            const Icon(
-                              Icons.arrow_right,
-                            ),
-                          ],
-                        )
-                      : const Row(
-                          children: [
-                            Text("You have not logged in"),
-                            Icon(
-                              Icons.arrow_right,
-                            ),
-                          ],
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: profileHandler,
+                    child: FittedBox(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        
-                ),
+                        child: isLoggedIn
+                            ? Row(
+                                children: [
+                                  Text(supabase.auth.currentUser!.email ??
+                                      "You successfully logged in"),
+                                  const Icon(
+                                    Icons.arrow_right,
+                                  ),
+                                ],
+                              )
+                            : const Row(
+                                children: [
+                                  Text("You have not logged in"),
+                                  Icon(
+                                    Icons.arrow_right,
+                                  ),
+                                ],
+                              ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => context.go('/transactions'),
+                    icon: Icon(Icons.receipt),
+                  ),
+                ],
               ),
             ),
-            
+            Expanded(
+              flex: 8,
+              child: FutureBuilder<List<Item?>?>(
+                future: getItems(),
+                builder: (context, snapshot) {
+                  print(snapshot.data);
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          snapshot.error.toString(),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      );
+                    }
+
+                    final items = snapshot.data as List<Item?>;
+
+                    return ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+
+                        return ListTile(
+                          title: Text(item!.name),
+                          subtitle: Text(item.desc),
+                        );
+                      },
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
