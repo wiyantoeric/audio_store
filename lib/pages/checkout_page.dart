@@ -1,5 +1,6 @@
 import 'package:audio_store/database/supabase_controller.dart';
 import 'package:audio_store/model/cart_item.dart';
+import 'package:audio_store/model/transaction.dart';
 import 'package:audio_store/model/user_profile.dart';
 import 'package:audio_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +41,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
             );
             return;
           }
-          insertTransaction(
-            uid: Supabase.instance.client.auth.currentUser!.id,
+
+          final transaction = Transaction(
+            createdAt: null,
             itemIds:
                 cartItems.map((CartItem cartItem) => cartItem.item.id).toList(),
             totalPrice: context.read<CartProvider>().totalPrice,
             qtys: cartItems.map((CartItem cartItem) => cartItem.qty).toList(),
+          );
+
+          insertTransaction(
+            uid: Supabase.instance.client.auth.currentUser!.id,
+            transaction: transaction,
           );
           context.read<CartProvider>().clearCart();
           context.go('/transaction/success');

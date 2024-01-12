@@ -1,5 +1,6 @@
 import 'package:audio_store/model/cart_item.dart';
 import 'package:audio_store/model/item.dart';
+import 'package:audio_store/model/transaction.dart';
 import 'package:audio_store/model/user_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logger/logger.dart';
@@ -90,22 +91,32 @@ Future<UserProfile?> getUserProfile({required String uid}) async {
 
 Future<void> insertTransaction({
   required String uid,
-  required List<int> itemIds,
-  required double totalPrice,
-  required List<int> qtys,
+  required Transaction transaction,
 }) async {
   try {
     await _supabase.from('transactions').insert([
       {
         'uid': uid,
-        'item_ids': itemIds,
-        'price': totalPrice,
-        'qtys': qtys,
+        'item_ids': transaction.itemIds,
+        'price': transaction.totalPrice,
+        'qtys': transaction.qtys,
       }
     ]);
   } catch (e) {
     Logger().e(e);
   }
+}
+
+Future<List<CartItem?>?> getTransactions() async {
+  try {
+    final res = await _supabase.from('transactions').select();
+    Logger().i(res);
+
+    // return res.map((json) => Item.fromJson(json)).toList();
+  } catch (e) {
+    Logger().e(e);
+  }
+  return null;
 }
 
 // LEGACY: Cloud cart
