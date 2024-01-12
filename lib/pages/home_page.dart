@@ -22,12 +22,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    isLoggedIn = supabase.auth.currentSession != null && supabase.auth.currentUser != null;
-    Logger().i(isLoggedIn);
-    Logger().i(supabase.auth.currentSession);
-    Logger().i(supabase.auth.currentUser);
-    profileHandler =
-        isLoggedIn ? () => context.go('/settings') : () => context.go('/login');
+    isLoggedIn = supabase.auth.currentSession != null &&
+        supabase.auth.currentUser != null;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      profileHandler = isLoggedIn
+          ? () => context.go('/settings')
+          : () => context.go('/login');
+    });
+
     super.initState();
   }
 
@@ -140,14 +142,11 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final item = items[index]!;
 
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: ItemCard(
-                              item: item,
-                              onClick: () => context.goNamed(
-                                'item',
-                                pathParameters: {'id': item.id.toString()},
-                              ),
+                          return ItemCard(
+                            item: item,
+                            onClick: () => context.goNamed(
+                              'item',
+                              pathParameters: {'id': item.id.toString()},
                             ),
                           );
                         },

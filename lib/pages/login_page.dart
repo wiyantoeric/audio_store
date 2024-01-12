@@ -20,67 +20,133 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    if (Supabase.instance.client.auth.currentSession != null) {
-      context.go('/');
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (Supabase.instance.client.auth.currentSession != null) {
+        context.go('/');
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextFormField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-            ),
-            // Login
-            ElevatedButton(
-              onPressed: () async {
-                if (_emailController.text.isEmpty ||
-                    _passwordController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content:
-                          const Text('Please fill your username or password'),
-                      backgroundColor: Theme.of(context).colorScheme.error,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                top: 0,
+                child: IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () => context.go('/'),
+                ),
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Audio Store',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Login',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
                     ),
-                  );
-                  return;
-                }
-                setState(() => isLoading = true);
-                final res = await loginUser(
-                    _emailController.text, _passwordController.text);
-                setState(() => isLoading = false);
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          obscureText: true,
+                          controller: _passwordController,
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Login
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: () => context.go('/register'),
+                              child: const Text('Register'),
+                            ),
+                            FilledButton(
+                              onPressed: () async {
+                                if (_emailController.text.isEmpty ||
+                                    _passwordController.text.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                          'Please fill your username or password'),
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                setState(() => isLoading = true);
+                                final res = await loginUser(
+                                    _emailController.text,
+                                    _passwordController.text);
+                                setState(() => isLoading = false);
 
-                if (res) {
-                  context.go('/');
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Username or password is incorrect'),
-                      backgroundColor: Theme.of(context).colorScheme.error,
+                                if (res) {
+                                  context.go('/');
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                          'Username or password is incorrect'),
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text('Login'),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Divider(),
+                        SizedBox(height: 8),
+                        // Go to RegisterPage
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text('Forgot password'),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }
-              },
-              child: const Text('Login'),
-            ),
-            // TODO: forgot password
-            // Go to RegisterPage
-            TextButton(
-              onPressed: () => context.go('/register'),
-              child: const Text('Register'),
-            ),
-          ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

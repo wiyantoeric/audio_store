@@ -50,7 +50,7 @@ class _CartItemCardState extends State<CartItemCard> {
             Row(
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(24),
                     child: Image.network(
@@ -120,13 +120,13 @@ class _CartItemCardState extends State<CartItemCard> {
                   ),
                   Column(
                     children: [
-                      const Text('Total'),
+                      Text(
+                        'Subtotal',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                       Text(
                         'USD ${context.watch<CartProvider>().cartItems[widget.index].subtotal}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],
                   ),

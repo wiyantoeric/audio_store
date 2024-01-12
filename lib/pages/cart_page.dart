@@ -21,22 +21,6 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          if (context.read<CartProvider>().cartItems.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Cart is empty'),
-              ),
-            );
-            return;
-          }
-
-          context.go('/checkout');
-        },
-        label: const Text('Checkout'),
-        icon: const Icon(Icons.shopping_cart),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
         child: Align(
@@ -49,6 +33,21 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          if (context.read<CartProvider>().cartItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Cart is empty'),
+              ),
+            );
+            return;
+          }
+          context.go('/checkout');
+        },
+        label: const Text('Checkout'),
+        icon: const Icon(Icons.shopping_cart),
       ),
       body: SafeArea(
         child: Padding(

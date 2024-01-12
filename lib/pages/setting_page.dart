@@ -59,7 +59,23 @@ class _SettingsPageState extends State<SettingsPage> {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         FilledButton.tonalIcon(
-                          onPressed: () {},
+                          onPressed: () {
+                            logoutUser();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
+                                content: Text(
+                                  'You have been logged out',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary),
+                                ),
+                              ),
+                            );
+                            context.go('/');
+                          },
                           icon: Icon(Icons.logout),
                           label: Text('Logout'),
                         ),

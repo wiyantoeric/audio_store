@@ -1,3 +1,4 @@
+import 'package:audio_store/model/cart_item.dart';
 import 'package:audio_store/model/item.dart';
 import 'package:audio_store/model/user_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -63,7 +64,8 @@ Future<Item?> getItem({
   }
 }
 
-Future<void> updateUserProfile({required String uid, required UserProfile userProfile}) async {
+Future<void> updateUserProfile(
+    {required String uid, required UserProfile userProfile}) async {
   try {
     await _supabase.from('user').update({
       'uid': uid,
@@ -79,12 +81,31 @@ Future<void> updateUserProfile({required String uid, required UserProfile userPr
 Future<UserProfile?> getUserProfile({required String uid}) async {
   try {
     final res = await _supabase.from('user').select().eq('uid', uid).single();
-    Logger().i(res);
     return UserProfile.fromJson(res);
   } catch (e) {
     Logger().e(e);
   }
   return null;
+}
+
+Future<void> insertTransaction({
+  required String uid,
+  required List<int> itemIds,
+  required double totalPrice,
+  required List<int> qtys,
+}) async {
+  try {
+    await _supabase.from('transactions').insert([
+      {
+        'uid': uid,
+        'item_ids': itemIds,
+        'price': totalPrice,
+        'qtys': qtys,
+      }
+    ]);
+  } catch (e) {
+    Logger().e(e);
+  }
 }
 
 // LEGACY: Cloud cart
@@ -102,17 +123,17 @@ Future<UserProfile?> getUserProfile({required String uid}) async {
 //   }
 // }
 
-// Future<Item?> getCartItem({required int itemId}) async {
-//   try {
-//     final res = await _supabase.from('cart').select().eq('id', itemId).single();
-//     return Item.fromJson(res);
-//   } catch (e) {
-//     Logger().e(e);
-//     return null;
-//   }
-// }
+Future<Item?> getCartItem({required int itemId}) async {
+  try {
+    final res = await _supabase.from('cart').select().eq('id', itemId).single();
+    return Item.fromJson(res);
+  } catch (e) {
+    Logger().e(e);
+    return null;
+  }
+}
 
-// Future<void> insertCardItem({
+// Future<void> insertCartItem({
 //   required int itemId,
 //   required int qty,
 //   required double subtotal,

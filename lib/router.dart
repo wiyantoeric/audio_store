@@ -6,11 +6,12 @@ import 'package:audio_store/pages/item_page.dart';
 import 'package:audio_store/pages/login_page.dart';
 import 'package:audio_store/pages/register_page.dart';
 import 'package:audio_store/pages/setting_page.dart';
-import 'package:audio_store/pages/transaction_history_page.dart';
+import 'package:audio_store/pages/transactions_page.dart';
+import 'package:audio_store/pages/transaction_success_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/',
@@ -35,6 +36,10 @@ final router = GoRouter(
     GoRoute(
       path: '/transactions',
       builder: (context, state) => const TransactionsPage(),
+    ),
+    GoRoute(
+      path: '/transaction/success',
+      builder: (context, state) => const TranscationSuccessPage(),
     ),
     GoRoute(
       path: '/item/:id',

@@ -50,10 +50,6 @@ class ItemPage extends StatelessWidget {
                                   'USD ${item.price.toString()}',
                                   style: Theme.of(context).textTheme.labelLarge,
                                 ),
-                                const SizedBox(height: 8),
-                                Text(item.desc,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge),
                               ],
                             ),
                           ),
@@ -75,6 +71,11 @@ class ItemPage extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: double.infinity,
                       ),
+                    ),
+                    const SizedBox(height: 32),
+                    Text(
+                      item.desc,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
                 );
