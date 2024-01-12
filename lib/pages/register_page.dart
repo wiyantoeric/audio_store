@@ -101,7 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 }
               },
-              child: Text('Register'),
+              child: const Text('Register'),
             ),
             // Go to LoginPage
             TextButton(

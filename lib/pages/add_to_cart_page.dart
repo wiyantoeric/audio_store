@@ -1,5 +1,5 @@
 import 'package:audio_store/database/supabase_controller.dart';
-import 'package:audio_store/model/cart.dart';
+import 'package:audio_store/model/cart_item.dart';
 import 'package:audio_store/model/item.dart';
 import 'package:audio_store/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
@@ -87,14 +87,14 @@ class _AddToCartState extends State<AddToCart> {
                                           .textTheme
                                           .titleLarge,
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Text(
                                       'USD ${item.price.toString()}',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelLarge,
                                     ),
-                                    SizedBox(height: 16),
+                                    const SizedBox(height: 16),
                                     Row(
                                       children: [
                                         Expanded(
@@ -105,31 +105,46 @@ class _AddToCartState extends State<AddToCart> {
                                                   .digitsOnly,
                                             ],
                                             keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               labelText: 'Quantity',
                                               border: OutlineInputBorder(),
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: 16),
+                                        const SizedBox(width: 16),
                                         FilledButton(
                                           onPressed: () {
                                             // Add item(s) into cart
-                                            context
-                                                .read<CartProvider>()
-                                                .addToCart(
-                                                  CartItem(
-                                                    item: item,
-                                                    qty: int.parse(
-                                                      _qtyController.text,
-                                                    ),
-                                                  ),
-                                                );
+                                            // insertCardItem(
+                                            //   itemId: item.id,
+                                            //   qty: qty,
+                                            //   subtotal: qty * item.price,
+                                            // );
 
-                                            // Go to CartPage
-                                            context.go('/cart');
+                                            final qty =
+                                                int.parse(_qtyController.text);
+
+                                            if (_supabase.auth.currentSession !=
+                                                null) {
+                                              context
+                                                  .read<CartProvider>()
+                                                  .addToCart(
+                                                    CartItem(
+                                                      item: item,
+                                                      qty: int.parse(
+                                                        _qtyController.text,
+                                                      ),
+                                                      subtotal:
+                                                          qty * item.price,
+                                                    ),
+                                                  );
+                                              // Go to CartPage
+                                              context.go('/cart');
+                                            } else {
+                                              context.go('/login');
+                                            }
                                           },
-                                          child: Text('Add to Cart'),
+                                          child: const Text('Add to Cart'),
                                         ),
                                       ],
                                     ),
@@ -140,8 +155,8 @@ class _AddToCartState extends State<AddToCart> {
                           ],
                         ),
                       ),
-                      Divider(),
-                      SizedBox(height: 16),
+                      const Divider(),
+                      const SizedBox(height: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -149,24 +164,24 @@ class _AddToCartState extends State<AddToCart> {
                             'Item Summary',
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Text(
                             'Name',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           Text(item.name),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             'Price',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           Text('USD ${item.price.toString()}'),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(item.desc),
                         ],
                       ),
-                      SizedBox(height: 16),
-                      Divider(),
+                      const SizedBox(height: 16),
+                      const Divider(),
                     ],
                   ),
                 ],

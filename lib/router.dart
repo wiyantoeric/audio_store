@@ -12,23 +12,23 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => HomePage(),
+      builder: (context, state) => const HomePage(),
     ),
     GoRoute(
       path: '/login',
-      builder: (context, state) => LoginPage(),
+      builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
       path: '/register',
-      builder: (context, state) => RegisterPage(),
+      builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
       path: '/settings',
-      builder: (context, state) => RegisterPage(),
+      builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
       path: '/transactions',
-      builder: (context, state) => TransactionsPage(),
+      builder: (context, state) => const TransactionsPage(),
     ),
     GoRoute(
       path: '/item/:id',

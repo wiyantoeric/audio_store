@@ -45,12 +45,12 @@ class ItemPage extends StatelessWidget {
                                   item.name,
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
                                   'USD ${item.price.toString()}',
                                   style: Theme.of(context).textTheme.labelLarge,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(item.desc,
                                     style:
                                         Theme.of(context).textTheme.bodyLarge),

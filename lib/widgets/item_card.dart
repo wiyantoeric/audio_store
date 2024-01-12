@@ -39,16 +39,18 @@ class ItemCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(item.name),
-                      Text(item.price.toString()),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.name),
+                        Text('USD ${item.price.toString()}'),
+                      ],
+                    ),
                   ),
                   TextButton(
                     onPressed: onClick,
-                    child: Text('Learn more'),
+                    child: const Text('Learn more'),
                   ),
                 ],
               ),
