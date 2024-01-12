@@ -1,9 +1,11 @@
 import 'package:audio_store/pages/add_to_cart_page.dart';
 import 'package:audio_store/pages/cart_page.dart';
+import 'package:audio_store/pages/checkout_page.dart';
 import 'package:audio_store/pages/home_page.dart';
 import 'package:audio_store/pages/item_page.dart';
 import 'package:audio_store/pages/login_page.dart';
 import 'package:audio_store/pages/register_page.dart';
+import 'package:audio_store/pages/setting_page.dart';
 import 'package:audio_store/pages/transaction_history_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,7 +26,11 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/settings',
-      builder: (context, state) => const RegisterPage(),
+      builder: (context, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      path: '/checkout',
+      builder: (context, state) => const CheckoutPage(),
     ),
     GoRoute(
       path: '/transactions',

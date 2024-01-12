@@ -1,4 +1,5 @@
 import 'package:audio_store/model/item.dart';
+import 'package:audio_store/model/user_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logger/logger.dart';
 
@@ -62,6 +63,29 @@ Future<Item?> getItem({
   }
 }
 
+Future<void> updateUserProfile({required String uid, required UserProfile userProfile}) async {
+  try {
+    await _supabase.from('user').update({
+      'uid': uid,
+      'full_name': userProfile.fullName,
+      'address': userProfile.address,
+      'phone': userProfile.phone,
+    }).eq('uid', uid);
+  } catch (e) {
+    Logger().e(e);
+  }
+}
+
+Future<UserProfile?> getUserProfile({required String uid}) async {
+  try {
+    final res = await _supabase.from('user').select().eq('uid', uid).single();
+    Logger().i(res);
+    return UserProfile.fromJson(res);
+  } catch (e) {
+    Logger().e(e);
+  }
+  return null;
+}
 
 // LEGACY: Cloud cart
 // Future<List<CartItem?>?> getCartItems() async {

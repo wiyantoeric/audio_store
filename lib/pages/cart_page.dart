@@ -19,9 +19,25 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    Logger().i(context.watch<CartProvider>().totalPrice);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          if (context.read<CartProvider>().cartItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Cart is empty'),
+              ),
+            );
+            return;
+          }
+
+          context.go('/checkout');
+        },
+        label: const Text('Checkout'),
+        icon: const Icon(Icons.shopping_cart),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
         child: Align(
           alignment: Alignment.centerLeft,
@@ -34,48 +50,50 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: IconButton(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              IconButton(
                 onPressed: () => context.go('/'),
                 icon: const Icon(Icons.arrow_back),
               ),
-            ),
-            Expanded(child:
-                Consumer<CartProvider>(builder: (context, cartProvider, child) {
-              final cartItems = cartProvider.cartItems;
-              return ListView.separated(
-                itemCount: cartItems.length,
-                separatorBuilder: (context, index) => const Column(
-                  children: [
-                    SizedBox(height: 16),
-                    Divider(),
-                    SizedBox(height: 16),
-                  ],
-                ),
-                itemBuilder: (context, index) {
-                  final cartItem = cartItems[index];
+              Expanded(
+                child: Consumer<CartProvider>(
+                  builder: (context, cartProvider, child) {
+                    final cartItems = cartProvider.cartItems;
+                    return ListView.separated(
+                      itemCount: cartItems.length,
+                      separatorBuilder: (context, index) => const Column(
+                        children: [
+                          SizedBox(height: 16),
+                          Divider(),
+                          SizedBox(height: 16),
+                        ],
+                      ),
+                      itemBuilder: (context, index) {
+                        final cartItem = cartItems[index];
 
-                  return CartItemCard(
-                    index: index,
-                    cartItem: cartItem,
-                    onRemove: () {
-                      // await deleteCartItem(id: cartItem.itemId);
-                      context
-                          .read<CartProvider>()
-                          .removeFromCart(cartItem: cartItem);
-                    },
-                    onQtyChange: null,
-                  );
-                },
-              );
-            })),
-          ],
+                        return CartItemCard(
+                          index: index,
+                          cartItem: cartItem,
+                          onRemove: () {
+                            // await deleteCartItem(id: cartItem.itemId);
+                            context
+                                .read<CartProvider>()
+                                .removeFromCart(cartItem: cartItem);
+                          },
+                          onQtyChange: null,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

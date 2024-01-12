@@ -1,6 +1,7 @@
 import 'package:audio_store/database/supabase_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +16,14 @@ class _LoginPageState extends State<LoginPage> {
       TextEditingController();
 
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (Supabase.instance.client.auth.currentSession != null) {
+      context.go('/');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

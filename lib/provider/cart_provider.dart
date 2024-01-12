@@ -38,8 +38,6 @@ class CartProvider extends ChangeNotifier {
   }
 
   void updateCart({required CartItem cartItem, required int index}) {
-    print(_cartItems[index].item.name);
-    print(_cartItems[index].subtotal);
     _cartItems[index] = cartItem;
     notifyListeners();
   }

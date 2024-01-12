@@ -26,6 +26,16 @@ class _CartItemCardState extends State<CartItemCard> {
   late final _qtyController =
       TextEditingController(text: widget.cartItem.qty.toString());
 
+  void updateQtyValue({required int value}) {
+    final qty = value;
+    context.read<CartProvider>().updateCart(
+          cartItem: widget.cartItem
+            ..qty = qty
+            ..subtotal = qty * widget.cartItem.item.price,
+          index: widget.index,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -73,13 +83,27 @@ class _CartItemCardState extends State<CartItemCard> {
                         width: 64,
                         child: TextFormField(
                           controller: _qtyController,
-                          onChanged: (value) {
-                            final qty = int.parse(value);
-                            context.read<CartProvider>().updateCart(
-                                cartItem: widget.cartItem
-                                  ..qty = qty
-                                  ..subtotal = qty * widget.cartItem.item.price,
-                                index: widget.index);
+                          onTapOutside: (_) {
+                            FocusScope.of(context).unfocus();
+                            if (_qtyController.text.isEmpty) {
+                              _qtyController.text = '1';
+                            } else if (int.parse(_qtyController.text) <= 0) {
+                              widget.onRemove!();
+                              return;
+                            }
+                            updateQtyValue(
+                                value: int.parse(_qtyController.text));
+                          },
+                          onFieldSubmitted: (_) {
+                            if (_qtyController.text.isEmpty) {
+                              _qtyController.text = '1';
+                            } else if (int.parse(_qtyController.text) <= 0) {
+                              widget.onRemove!();
+                              return;
+                            }
+
+                            updateQtyValue(
+                                value: int.parse(_qtyController.text));
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
