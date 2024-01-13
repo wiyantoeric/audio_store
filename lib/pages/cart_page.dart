@@ -21,34 +21,44 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: BottomAppBar(
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(
-              'Total: ${context.watch<CartProvider>().totalPrice}',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          if (context.read<CartProvider>().cartItems.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Cart is empty'),
+      floatingActionButtonLocation:
+          context.read<CartProvider>().cartItems.isEmpty
+              ? FloatingActionButtonLocation.centerDocked
+              : FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: context.read<CartProvider>().cartItems.isEmpty
+          ? BottomAppBar()
+          : BottomAppBar(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Text(
+                    'Total: ${context.watch<CartProvider>().totalPrice}',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
               ),
-            );
-            return;
-          }
-          context.go('/checkout');
-        },
-        label: const Text('Checkout'),
-        icon: const Icon(Icons.shopping_cart),
-      ),
+            ),
+      floatingActionButton: context.read<CartProvider>().cartItems.isEmpty
+          ? FloatingActionButton(
+              onPressed: () => context.go('/'),
+              child: const Icon(Icons.home),
+            )
+          : FloatingActionButton.extended(
+              onPressed: () {
+                if (context.read<CartProvider>().cartItems.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Cart is empty'),
+                    ),
+                  );
+                  return;
+                }
+                context.go('/checkout');
+              },
+              label: const Text('Checkout'),
+              icon: const Icon(Icons.shopping_cart),
+            ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -63,31 +73,38 @@ class _CartPageState extends State<CartPage> {
                 child: Consumer<CartProvider>(
                   builder: (context, cartProvider, child) {
                     final cartItems = cartProvider.cartItems;
-                    return ListView.separated(
-                      itemCount: cartItems.length,
-                      separatorBuilder: (context, index) => const Column(
-                        children: [
-                          SizedBox(height: 16),
-                          Divider(),
-                          SizedBox(height: 16),
-                        ],
-                      ),
-                      itemBuilder: (context, index) {
-                        final cartItem = cartItems[index];
+                    return cartItems.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Your cart is empty',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          )
+                        : ListView.separated(
+                            itemCount: cartItems.length,
+                            separatorBuilder: (context, index) => const Column(
+                              children: [
+                                SizedBox(height: 16),
+                                Divider(),
+                                SizedBox(height: 16),
+                              ],
+                            ),
+                            itemBuilder: (context, index) {
+                              final cartItem = cartItems[index];
 
-                        return CartItemCard(
-                          index: index,
-                          cartItem: cartItem,
-                          onRemove: () {
-                            // await deleteCartItem(id: cartItem.itemId);
-                            context
-                                .read<CartProvider>()
-                                .removeFromCart(cartItem: cartItem);
-                          },
-                          onQtyChange: null,
-                        );
-                      },
-                    );
+                              return CartItemCard(
+                                index: index,
+                                cartItem: cartItem,
+                                onRemove: () {
+                                  // await deleteCartItem(id: cartItem.itemId);
+                                  context
+                                      .read<CartProvider>()
+                                      .removeFromCart(cartItem: cartItem);
+                                },
+                                onQtyChange: null,
+                              );
+                            },
+                          );
                   },
                 ),
               ),

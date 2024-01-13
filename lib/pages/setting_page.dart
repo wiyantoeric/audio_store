@@ -51,167 +51,187 @@ class _SettingsPageState extends State<SettingsPage> {
                       onPressed: () => context.go('/'),
                       icon: const Icon(Icons.arrow_back),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Text(
-                            _supabase.auth.currentUser!.email!,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                        FilledButton.tonalIcon(
-                          onPressed: () {
-                            logoutUser();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                content: Text(
-                                  'You have been logged out',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary),
-                                ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(
+                                _supabase.auth.currentUser!.email!,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                            );
-                            context.go('/');
+                            ),
+                            FilledButton.tonalIcon(
+                              onPressed: () {
+                                logoutUser();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    content: Text(
+                                      'You have been logged out',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                                context.go('/');
+                              },
+                              icon: Icon(Icons.logout),
+                              label: Text('Logout'),
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.go('/change_password');
                           },
-                          icon: Icon(Icons.logout),
-                          label: Text('Logout'),
+                          child: Text('Change password'),
                         ),
                       ],
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        context.go('/change_password');
-                      },
-                      child: Text('Change password'),
                     ),
                     SizedBox(height: 32),
-                    SizedBox(height: 16),
-                    TextFormField(
-                      // controller: _fullNameController,
-                      initialValue: userProfile.fullName,
-                      decoration: const InputDecoration(
-                        labelText: 'Full Name',
-                        border: OutlineInputBorder(),
-                      ),
-                      autofillHints: [AutofillHints.name],
-                      onTapOutside: (_) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      onChanged: (value) {
-                        fullNameState = value;
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    TextFormField(
-                      // // controller: _addressController,
-                      initialValue: userProfile.address,
-                      decoration: const InputDecoration(
-                        labelText: 'Address',
-                        border: OutlineInputBorder(),
-                      ),
-                      autofillHints: [AutofillHints.streetAddressLine1],
-                      onTapOutside: (_) {
-                        FocusScope.of(context).unfocus();
-                      },
-                      onChanged: (value) {
-                        addressState = value;
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: TextFormField(
-                            initialValue: userProfile.phone?.substring(0, 2),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            // controller: _fullNameController,
+                            initialValue: userProfile.fullName,
                             decoration: const InputDecoration(
-                              labelText: 'Code',
+                              labelText: 'Full Name',
                               border: OutlineInputBorder(),
                             ),
-                            autofillHints: [AutofillHints.telephoneNumber],
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            autofillHints: [AutofillHints.name],
                             onTapOutside: (_) {
                               FocusScope.of(context).unfocus();
                             },
                             onChanged: (value) {
-                              countryCodeState = value;
+                              fullNameState = value;
                             },
                           ),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          flex: 6,
-                          child: TextFormField(
-                            // controller: _phoneController,
-                            initialValue: userProfile.phone?.substring(2),
+                          SizedBox(height: 16),
+                          TextFormField(
+                            // // controller: _addressController,
+                            initialValue: userProfile.address,
                             decoration: const InputDecoration(
-                              labelText: 'Phone',
+                              labelText: 'Address',
                               border: OutlineInputBorder(),
                             ),
-                            autofillHints: [AutofillHints.telephoneNumber],
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            autofillHints: [AutofillHints.streetAddressLine1],
                             onTapOutside: (_) {
                               FocusScope.of(context).unfocus();
                             },
                             onChanged: (value) {
-                              phoneState = value;
+                              addressState = value;
                             },
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: TextFormField(
+                                  initialValue:
+                                      userProfile.phone?.substring(0, 2),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Code',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  autofillHints: [
+                                    AutofillHints.telephoneNumber
+                                  ],
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  onTapOutside: (_) {
+                                    FocusScope.of(context).unfocus();
+                                  },
+                                  onChanged: (value) {
+                                    countryCodeState = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: 16),
+                              Expanded(
+                                flex: 6,
+                                child: TextFormField(
+                                  // controller: _phoneController,
+                                  initialValue: userProfile.phone?.substring(2),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Phone',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  autofillHints: [
+                                    AutofillHints.telephoneNumber
+                                  ],
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  onTapOutside: (_) {
+                                    FocusScope.of(context).unfocus();
+                                  },
+                                  onChanged: (value) {
+                                    phoneState = value;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                try {
+                                  updateUserProfile(
+                                    uid: _supabase.auth.currentUser!.id,
+                                    userProfile: UserProfile(
+                                      fullName: fullNameState,
+                                      address: addressState,
+                                      phone: '$countryCodeState$phoneState',
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      content: Text(
+                                        'Profile updated',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                      ),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                      content: Text(
+                                        'Failed to update profile',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onError),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Text('Save'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        try {
-                          updateUserProfile(
-                            uid: _supabase.auth.currentUser!.id,
-                            userProfile: UserProfile(
-                              fullName: fullNameState,
-                              address: addressState,
-                              phone: '$countryCodeState$phoneState',
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              content: Text(
-                                'Profile updated',
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary),
-                              ),
-                            ),
-                          );
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.error,
-                              content: Text(
-                                'Failed to update profile',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onError),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Text('Save'),
-                    )
                   ],
                 );
               } else if (snapshot.hasError) {

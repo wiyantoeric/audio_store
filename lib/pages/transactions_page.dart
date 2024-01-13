@@ -1,11 +1,9 @@
 import 'package:audio_store/database/supabase_controller.dart';
-import 'package:audio_store/model/cart_item.dart';
 import 'package:audio_store/model/transaction.dart';
 import 'package:audio_store/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:logger/logger.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -38,9 +36,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
                           children: [
                             FilledButton(
                               onPressed: () => context.go('/login'),
-                              child: Text('Login'),
+                              child: const Text('Login'),
                             ),
-                            Text('Please login to view transactions'),
+                            const Text(
+                              'Please login to view your transactions',
+                            ),
                           ],
                         )
                       : FutureBuilder(
@@ -55,25 +55,43 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                 itemIds.addAll(t.itemIds);
                               }
 
-                              return ListView.separated(
-                                  itemCount: transactions.length,
-                                  separatorBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        SizedBox(height: 8),
-                                        Divider(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .outline),
-                                        SizedBox(height: 8),
-                                      ],
-                                    );
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return TransactionCard(
-                                      transaction: transactions[index],
-                                    );
-                                  });
+                              return transactions.length == 0
+                                  ? Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'You have no transaction',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                          ),
+                                          const SizedBox(height: 8),
+                                          ElevatedButton(
+                                            onPressed: () => context.go('/'),
+                                            child: const Text('Browse item'),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : ListView.separated(
+                                      itemCount: transactions.length,
+                                      separatorBuilder: (context, index) {
+                                        return Column(
+                                          children: [
+                                            const SizedBox(height: 8),
+                                            Divider(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .outline),
+                                            const SizedBox(height: 8),
+                                          ],
+                                        );
+                                      },
+                                      itemBuilder: (context, index) {
+                                        return TransactionCard(
+                                          transaction: transactions[index],
+                                        );
+                                      });
                             } else {
                               return const Center(
                                 child: CircularProgressIndicator(),
