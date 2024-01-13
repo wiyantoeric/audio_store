@@ -12,7 +12,7 @@ class TranscationSuccessPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -47,8 +47,8 @@ class TranscationSuccessPage extends StatelessWidget {
                               )
                               .then(delay: const Duration(milliseconds: 200))
                               .scale(
-                                begin: Offset(1, 1),
-                                end: Offset(0.8, 0.8),
+                                begin: const Offset(1, 1),
+                                end: const Offset(0.8, 0.8),
                               )
                               .then(delay: const Duration(milliseconds: 200))
                               .shake(
@@ -67,7 +67,7 @@ class TranscationSuccessPage extends StatelessWidget {
                     children: [
                       FilledButton.tonal(
                         onPressed: () => context.go('/transactions'),
-                        child: Text('Order receipts'),
+                        child: const Text('Order receipts'),
                       ),
                     ],
                   ),

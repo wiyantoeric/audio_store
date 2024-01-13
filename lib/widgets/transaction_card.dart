@@ -37,7 +37,7 @@ class _TransactionCardState extends State<TransactionCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(orderDate),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           ...widget.transaction.itemIds.asMap().entries.map(
             (e) {
               int idx = e.key;
@@ -63,7 +63,7 @@ class _TransactionCardState extends State<TransactionCard> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                             Expanded(
                               flex: 3,
                               child: Column(
@@ -74,7 +74,7 @@ class _TransactionCardState extends State<TransactionCard> {
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -99,7 +99,7 @@ class _TransactionCardState extends State<TransactionCard> {
                                       Text(qty.toString()),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Text(
                                     'Subtotal : USD${qty * item.price}',
                                     style:
@@ -110,12 +110,12 @@ class _TransactionCardState extends State<TransactionCard> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                       ],
                     );
                   } else if (snapshot.hasError) {
                     Logger().e(snapshot.error);
-                    return Text('Error occured');
+                    return const Text('Error occured');
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(),

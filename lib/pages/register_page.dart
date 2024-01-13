@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 left: 0,
                 top: 0,
                 child: IconButton(
-                  icon: Icon(Icons.home),
+                  icon: const Icon(Icons.home),
                   onPressed: () => context.go('/'),
                 ),
               ),
@@ -55,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           'Audio Store',
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Register',
                           style: Theme.of(context).textTheme.titleMedium,
@@ -98,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           children: [
                             TextButton(
                               onPressed: () => context.go('/login'),
-                              child: Text('Login'),
+                              child: const Text('Login'),
                             ),
                             FilledButton(
                               onPressed: () async {

@@ -83,8 +83,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                 );
                                 context.go('/');
                               },
-                              icon: Icon(Icons.logout),
-                              label: Text('Logout'),
+                              icon: const Icon(Icons.logout),
+                              label: const Text('Logout'),
                             ),
                           ],
                         ),
@@ -92,11 +92,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           onPressed: () {
                             context.go('/change_password');
                           },
-                          child: Text('Change password'),
+                          child: const Text('Change password'),
                         ),
                       ],
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     Expanded(
                       child: Column(
                         children: [
@@ -107,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               labelText: 'Full Name',
                               border: OutlineInputBorder(),
                             ),
-                            autofillHints: [AutofillHints.name],
+                            autofillHints: const [AutofillHints.name],
                             onTapOutside: (_) {
                               FocusScope.of(context).unfocus();
                             },
@@ -115,7 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               fullNameState = value;
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           TextFormField(
                             // // controller: _addressController,
                             initialValue: userProfile.address,
@@ -123,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               labelText: 'Address',
                               border: OutlineInputBorder(),
                             ),
-                            autofillHints: [AutofillHints.streetAddressLine1],
+                            autofillHints: const [AutofillHints.streetAddressLine1],
                             onTapOutside: (_) {
                               FocusScope.of(context).unfocus();
                             },
@@ -131,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               addressState = value;
                             },
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Row(
                             children: [
                               Expanded(
@@ -143,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     labelText: 'Code',
                                     border: OutlineInputBorder(),
                                   ),
-                                  autofillHints: [
+                                  autofillHints: const [
                                     AutofillHints.telephoneNumber
                                   ],
                                   inputFormatters: [
@@ -157,7 +157,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   },
                                 ),
                               ),
-                              SizedBox(width: 16),
+                              const SizedBox(width: 16),
                               Expanded(
                                 flex: 6,
                                 child: TextFormField(
@@ -167,7 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     labelText: 'Phone',
                                     border: OutlineInputBorder(),
                                   ),
-                                  autofillHints: [
+                                  autofillHints: const [
                                     AutofillHints.telephoneNumber
                                   ],
                                   inputFormatters: [
@@ -183,7 +183,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
@@ -226,7 +226,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   );
                                 }
                               },
-                              child: Text('Save'),
+                              child: const Text('Save'),
                             ),
                           ),
                         ],

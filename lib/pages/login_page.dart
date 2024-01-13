@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 left: 0,
                 top: 0,
                 child: IconButton(
-                  icon: Icon(Icons.home),
+                  icon: const Icon(Icons.home),
                   onPressed: () => context.go('/'),
                 ),
               ),
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                           'Audio Store',
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'Login',
                           style: Theme.of(context).textTheme.titleMedium,

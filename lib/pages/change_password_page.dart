@@ -42,32 +42,32 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () => context.go('/settings'),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text('Change password',
                   style: Theme.of(context).textTheme.titleLarge),
-              SizedBox(height: 32),
-              SizedBox(height: 8),
+              const SizedBox(height: 32),
+              const SizedBox(height: 8),
               TextFormField(
                 controller: _newPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               TextFormField(
                 controller: _confirmNewPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Confirm Password',
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               FilledButton(
                 onPressed: () async {
                   final newPassword = _newPasswordController.text;
@@ -114,7 +114,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     );
                   }
                 },
-                child: Text('Change Password'),
+                child: const Text('Change Password'),
               ),
             ],
           ),

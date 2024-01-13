@@ -55,7 +55,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                 itemIds.addAll(t.itemIds);
                               }
 
-                              return transactions.length == 0
+                              return transactions.isEmpty
                                   ? Center(
                                       child: Column(
                                         children: [

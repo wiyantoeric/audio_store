@@ -80,9 +80,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
             children: [
               IconButton(
                 onPressed: () => context.go('/cart'),
-                icon: Icon(Icons.arrow_back_outlined),
+                icon: const Icon(Icons.arrow_back_outlined),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Expanded(
                 child: ListView.separated(
                   itemCount: cartItems.length,
@@ -119,7 +119,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -144,7 +144,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       Text(cartItems[index].qty.toString()),
                                     ],
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Text(
                                     'Subtotal : USD${cartItems[index].subtotal}',
                                     style:
@@ -160,9 +160,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   },
                 ),
               ),
-              SizedBox(height: 8),
-              Divider(),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
+              const Divider(),
+              const SizedBox(height: 8),
               // Shipping address
               InkWell(
                 onTap: () => context.go('/settings'),
@@ -197,12 +197,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       snapshot.data as UserProfile;
                                   if (userProfile.address == null ||
                                       userProfile.address == '') {
-                                    return Text('No address');
+                                    return const Text('No address');
                                   }
 
                                   return Text(userProfile.address!);
                                 } else {
-                                  return Text('Loading...');
+                                  return const Text('Loading...');
                                 }
                               },
                             ),
@@ -217,7 +217,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               // Payment method (not implemented)
               InkWell(
                 onTap: () {},
@@ -242,8 +242,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               style: Theme.of(context).textTheme.labelLarge,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(height: 8),
-                            Column(
+                            const SizedBox(height: 8),
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Master Card'),
@@ -266,7 +266,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
             ],
           ),
         ),

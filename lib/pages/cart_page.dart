@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:logger/logger.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -26,7 +25,7 @@ class _CartPageState extends State<CartPage> {
               ? FloatingActionButtonLocation.centerDocked
               : FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: context.read<CartProvider>().cartItems.isEmpty
-          ? BottomAppBar()
+          ? const BottomAppBar()
           : BottomAppBar(
               child: Align(
                 alignment: Alignment.centerLeft,
