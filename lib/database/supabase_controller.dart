@@ -1,7 +1,7 @@
-import 'package:audio_store/model/cart_item.dart';
 import 'package:audio_store/model/item.dart';
 import 'package:audio_store/model/transaction.dart';
 import 'package:audio_store/model/user_profile.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:logger/logger.dart';
 
@@ -12,7 +12,10 @@ Future<bool> registerUser(
   String password,
 ) async {
   try {
-    await _supabase.auth.signUp(email: email, password: password);
+    await _supabase.auth.signUp(
+      email: email,
+      password: password,
+    );
   } catch (e) {
     Logger().e(e);
     return false;
@@ -25,7 +28,10 @@ Future<bool> loginUser(
   String password,
 ) async {
   try {
-    await _supabase.auth.signInWithPassword(email: email, password: password);
+    await _supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
   } catch (e) {
     Logger().e(e);
     return false;
@@ -43,13 +49,32 @@ Future<bool> logoutUser() async {
   return true;
 }
 
-Future<List<Item?>?> getItems() async {
+Future<void> requestPasswordChange({
+  required String email,
+  required VoidCallback onEmailConfirmed,
+}) async {
   try {
-    final res = await _supabase.from('items').select();
-    return res.map((json) => Item.fromJson(json)).toList();
+    await _supabase.auth.resetPasswordForEmail(email);
   } catch (e) {
     Logger().e(e);
-    return null;
+    rethrow;
+  }
+}
+
+Future<void> changePassword({
+  required String email,
+  required String newPassword,
+}) async {
+  try {
+    await _supabase.auth.updateUser(
+      UserAttributes(
+        email: email,
+        password: newPassword,
+      ),
+    );
+  } catch (e) {
+    Logger().e(e);
+    rethrow;
   }
 }
 
@@ -65,8 +90,20 @@ Future<Item?> getItem({
   }
 }
 
-Future<void> updateUserProfile(
-    {required String uid, required UserProfile userProfile}) async {
+Future<List<Item?>?> getItems() async {
+  try {
+    final res = await _supabase.from('items').select();
+    return res.map((json) => Item.fromJson(json)).toList();
+  } catch (e) {
+    Logger().e(e);
+    return null;
+  }
+}
+
+Future<void> updateUserProfile({
+  required String uid,
+  required UserProfile userProfile,
+}) async {
   try {
     await _supabase.from('user').update({
       'uid': uid,
@@ -107,12 +144,10 @@ Future<void> insertTransaction({
   }
 }
 
-Future<List<CartItem?>?> getTransactions() async {
+Future<List<Transaction>?> getTransactions({required String uid}) async {
   try {
-    final res = await _supabase.from('transactions').select();
-    Logger().i(res);
-
-    // return res.map((json) => Item.fromJson(json)).toList();
+    final res = await _supabase.from('transactions').select().eq('uid', uid);
+    return res.map((json) => Transaction.fromJson(json)).toList();
   } catch (e) {
     Logger().e(e);
   }

@@ -129,17 +129,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Divider(),
-                        SizedBox(height: 8),
-                        // Go to RegisterPage
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text('Forgot password'),
-                          ),
-                        ),
                       ],
                     ),
                   ),

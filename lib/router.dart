@@ -1,6 +1,7 @@
 import 'package:audio_store/pages/add_to_cart_page.dart';
 import 'package:audio_store/pages/cart_page.dart';
 import 'package:audio_store/pages/checkout_page.dart';
+import 'package:audio_store/pages/change_password_page.dart';
 import 'package:audio_store/pages/home_page.dart';
 import 'package:audio_store/pages/item_page.dart';
 import 'package:audio_store/pages/login_page.dart';
@@ -32,6 +33,10 @@ final router = GoRouter(
     GoRoute(
       path: '/checkout',
       builder: (context, state) => const CheckoutPage(),
+    ),
+    GoRoute(
+      path: '/change_password',
+      builder: (context, state) => const ChangePasswordPage(),
     ),
     GoRoute(
       path: '/transactions',

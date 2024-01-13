@@ -54,9 +54,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          _supabase.auth.currentUser!.email!,
-                          style: Theme.of(context).textTheme.titleMedium,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            _supabase.auth.currentUser!.email!,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
                         ),
                         FilledButton.tonalIcon(
                           onPressed: () {
@@ -81,6 +84,13 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                       ],
                     ),
+                    TextButton(
+                      onPressed: () {
+                        context.go('/change_password');
+                      },
+                      child: Text('Change password'),
+                    ),
+                    SizedBox(height: 32),
                     SizedBox(height: 16),
                     TextFormField(
                       // controller: _fullNameController,

@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
                     // Profile chip
                     InkWell(
                       onTap: () {
-                        Logger().i(isLoggedIn);
                         profileHandler();
                       },
                       child: FittedBox(
