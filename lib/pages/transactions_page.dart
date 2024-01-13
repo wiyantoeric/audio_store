@@ -32,16 +32,23 @@ class _TransactionsPageState extends State<TransactionsPage> {
                 ),
                 Expanded(
                   child: Supabase.instance.client.auth.currentSession == null
-                      ? Column(
-                          children: [
-                            FilledButton(
-                              onPressed: () => context.go('/login'),
-                              child: const Text('Login'),
-                            ),
-                            const Text(
-                              'Please login to view your transactions',
-                            ),
-                          ],
+                      ? Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Please login to view your transactions',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              const SizedBox(height: 8),
+                              FilledButton(
+                                onPressed: () => context.go('/login'),
+                                child: const Text('Login'),
+                              ),
+                            ],
+                          ),
                         )
                       : FutureBuilder(
                           future: getTransactions(
@@ -58,6 +65,10 @@ class _TransactionsPageState extends State<TransactionsPage> {
                               return transactions.isEmpty
                                   ? Center(
                                       child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text(
                                             'You have no transaction',

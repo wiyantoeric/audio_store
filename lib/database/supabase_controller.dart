@@ -116,11 +116,39 @@ Future<void> updateUserProfile({
   }
 }
 
+Future<void> insertUserProfile({
+  required String uid,
+}) async {
+  try {
+    await _supabase.from('user').insert([
+      {
+        'uid': uid,
+        'full_name': '',
+        'address': '',
+        'phone': '',
+      }
+    ]);
+  } catch (e) {
+    Logger().e(e);
+  }
+}
+
 Future<UserProfile?> getUserProfile({required String uid}) async {
   try {
     final res = await _supabase.from('user').select().eq('uid', uid).single();
+    Logger().i(res);
+
     return UserProfile.fromJson(res);
   } catch (e) {
+    // check if e is a ProstgrestException
+    if (e is PostgrestException) {
+      // if e.code is 404, it means the user profile is not found
+      if (e.code == 'PGRST116') {
+        await insertUserProfile(uid: uid);
+        return await getUserProfile(uid: uid);
+      }
+    }
+
     Logger().e(e);
   }
   return null;

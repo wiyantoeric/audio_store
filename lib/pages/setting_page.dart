@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:logger/logger.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -40,6 +41,9 @@ class _SettingsPageState extends State<SettingsPage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 final userProfile = snapshot.data as UserProfile;
+                Logger().i(userProfile.address);
+                Logger().i(userProfile.fullName);
+                Logger().i(userProfile.phone);
                 _fullNameController.text = userProfile.fullName ?? '';
                 _addressController.text = userProfile.address ?? '';
                 _phoneController.text = userProfile.phone ?? '';
@@ -123,7 +127,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               labelText: 'Address',
                               border: OutlineInputBorder(),
                             ),
-                            autofillHints: const [AutofillHints.streetAddressLine1],
+                            autofillHints: const [
+                              AutofillHints.streetAddressLine1
+                            ],
                             onTapOutside: (_) {
                               FocusScope.of(context).unfocus();
                             },
@@ -137,8 +143,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               Expanded(
                                 flex: 1,
                                 child: TextFormField(
-                                  initialValue:
-                                      userProfile.phone?.substring(0, 2),
+                                  initialValue: (userProfile.phone != null &&
+                                          userProfile.phone != '')
+                                      ? userProfile.phone?.substring(0, 2)
+                                      : null,
                                   decoration: const InputDecoration(
                                     labelText: 'Code',
                                     border: OutlineInputBorder(),
@@ -162,7 +170,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                 flex: 6,
                                 child: TextFormField(
                                   // controller: _phoneController,
-                                  initialValue: userProfile.phone?.substring(2),
+
+                                  initialValue: (userProfile.phone != null &&
+                                          userProfile.phone != '')
+                                      ? userProfile.phone?.substring(2)
+                                      : null,
                                   decoration: const InputDecoration(
                                     labelText: 'Phone',
                                     border: OutlineInputBorder(),
@@ -188,6 +200,43 @@ class _SettingsPageState extends State<SettingsPage> {
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
                               onPressed: () {
+                                final phoneNumber =
+                                    '$countryCodeState$phoneState';
+
+                                if ((countryCodeState.isEmpty) &&
+                                    phoneState.isNotEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                      content: Text(
+                                        'Please fill the country code',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onError),
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                } else if (phoneNumber.isNotEmpty &&
+                                    phoneNumber.length < 8) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                      content: Text(
+                                        'Phone number must be at least 8 digits',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onError),
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+
                                 try {
                                   updateUserProfile(
                                     uid: _supabase.auth.currentUser!.id,
