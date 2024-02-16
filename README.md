@@ -1,16 +1,13 @@
-# audio_store
+# Audio Store • Flutter App
 
-A new Flutter project.
+This app is a simulation of an online store where users can browse and purchase audio devices. While this app does not handle real transactions, it provides a functional simulation of adding items to a cart and checking out.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Browse Products**: Explore a variety of audio devices.
+- **Add to Cart**: Add item into cart.
+- **View Cart**: See a summary of all the items added to cart.
+- **Remove Items**: Remove items from cart.
+- **Checkout Simulation**: Experience a simulated checkout process.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Please head to this [google drive link](https://drive.google.com/file/d/1cGeIcurz2ZC3NVoYGFGIlHDAJnTTFr45/view?usp=sharing) to see the demo.
