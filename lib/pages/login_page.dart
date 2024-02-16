@@ -113,16 +113,18 @@ class _LoginPageState extends State<LoginPage> {
                                 setState(() => isLoading = false);
 
                                 if (res) {
-                                  context.go('/');
+                                  if (context.mounted) context.go('/');
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text(
-                                          'Username or password is incorrect'),
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
-                                  );
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text(
+                                            'Username or password is incorrect'),
+                                        backgroundColor:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
+                                    );
+                                  }
                                 }
                               },
                               child: const Text('Login'),
